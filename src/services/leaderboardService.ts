@@ -4,7 +4,7 @@
 
 import type { GuildMember } from 'discord.js';
 import { readScores, writeScores } from '../../lib/readJson.js';
-import type { ScoresData, UserScore } from '../../types/index.js';
+import type { UserScore } from '../../types/index.js';
 
 export async function addVictory(userId: string, questionId: string): Promise<UserScore> {
   const data = await readScores();

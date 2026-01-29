@@ -3,10 +3,7 @@
  */
 
 import type { Client } from 'discord.js';
-import {
-  sendChallengeToChannel,
-  clearActiveChallenge,
-} from '../services/challengeService.js';
+import { sendChallengeToChannel } from '../services/challengeService.js';
 
 const DEFAULT_TIMEOUT_MS = 5 * 60 * 1000;
 
