@@ -1,97 +1,171 @@
-# Bot Discord ? Rï¿½vision RNCP
+# ?? Bot Discord Révision RNCP
 
-Bot Discord pour la **rï¿½vision du Titre RNCP Dï¿½veloppeur Web & Web Mobile** : notions automatiques, challenges quiz et classement dans le salon #discussions. Premier qui rï¿½pond gagne (rï¿½le + classement). Tout se passe dans Discord, sans application externe.
+[![version](https://img.shields.io/badge/version-1.0.0-blue.svg)](package.json)
+[![license](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-339933?logo=node.js)](package.json)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-3178C6?logo=typescript)](package.json)
+[![Discord.js](https://img.shields.io/badge/discord.js-14.14-5865F2?logo=discord)](package.json)
+
+**Bot Discord pour la révision du Titre RNCP Développeur Web & Web Mobile** : notions automatiques, challenges quiz et classement dans le salon #discussions. Premier qui répond gagne (rôle + classement). Tout se passe dans Discord, sans application externe ? Node.js, TypeScript, slash commands, embeds et cron.
 
 ---
 
-## Fonctionnalitï¿½s
+## ? En bref
 
 - **Commandes slash** : `/challenge` et `/classement` dans le serveur
-- **Notions automatiques** : envoi pï¿½riodique de blocs RNCP (front-end, back-end, transversal) dans #discussions
-- **Challenges quiz** : lancement manuel ou via cron ; le premier ï¿½ rï¿½pondre correctement gagne un rï¿½le et des points
+- **Notions automatiques** : envoi périodique de blocs RNCP (front-end, back-end, transversal) dans #discussions
+- **Challenges quiz** : lancement manuel ou via cron ; le premier à répondre correctement gagne un rôle et des points
 - **Classement** : top 10 des gagnants avec nombre de victoires
 
 ---
 
-## Prï¿½requis
+## ?? Navigation
 
-- **Node.js** 18 ou supï¿½rieur
-- Un **compte Discord** et un serveur oï¿½ vous avez les droits d?administrateur
-- Un **bot** crï¿½ï¿½ sur le [Discord Developer Portal](https://discord.com/developers/applications) (voir [docs/setup.md](docs/setup.md) pour la crï¿½ation du bot et les permissions)
+? [?? Démarrage rapide](#-démarrage-rapide) ? [?? Documentation](#-documentation) ? [?? Architecture](#-architecture) ? [?? Configuration](#?-configuration) ? [?? Licence](#-licence)
 
 ---
 
-## Installation
+## ?? Démarrage rapide
+
+### Prérequis
+
+- **Node.js** 18 ou supérieur
+- Un **compte Discord** et un serveur où vous avez les droits d?administrateur
+- Un **bot** créé sur le [Discord Developer Portal](https://discord.com/developers/applications) (voir [docs/setup.md](docs/setup.md))
+
+### Installation
 
 ```bash
 npm install
 cp .env.example .env
-# ï¿½diter .env : DISCORD_TOKEN, DISCUSSIONS_CHANNEL_ID, WINNER_ROLE_ID
+# Éditer .env : DISCORD_TOKEN, DISCUSSIONS_CHANNEL_ID, WINNER_ROLE_ID
 npm run build
 npm start
 ```
 
 ---
 
-## Configuration
+## ?? Architecture
 
-Remplir le fichier `.env` ï¿½ la racine (ï¿½ partir de `.env.example`) :
+Schéma des flux et des composants du bot :
+
+```mermaid
+flowchart TB
+  subgraph entry [Entrée]
+    Index[index.ts]
+  end
+  subgraph config [Config]
+    Env[env.ts]
+    Embeds[embeds.ts]
+  end
+  subgraph commands [Commandes slash]
+    Challenge["/challenge"]
+    Classement["/classement"]
+  end
+  subgraph services [Services]
+    Notions[notionsService]
+    ChallengeSvc[challengeService]
+    Leaderboard[leaderboardService]
+  end
+  subgraph data [Données]
+    NotionsJSON[notions.json]
+    QuestionsJSON[questions.json]
+    ScoresJSON[scores.json]
+  end
+  subgraph jobs [Tâches planifiées]
+    NotionJob[notionJob]
+    ChallengeJob[challengeJob]
+  end
+  Index --> Env
+  Index --> Embeds
+  Index --> commands
+  Index --> services
+  Challenge --> ChallengeSvc
+  Classement --> Leaderboard
+  NotionJob --> Notions
+  ChallengeJob --> ChallengeSvc
+  Notions --> NotionsJSON
+  ChallengeSvc --> QuestionsJSON
+  Leaderboard --> ScoresJSON
+```
+
+| Dossier | Rôle |
+|--------|------|
+| `src/` | Point d?entrée, commandes, services, jobs, config |
+| `src/config/` | Configuration centralisée (env, embeds) |
+| `src/commands/` | Commandes slash `/challenge`, `/classement` |
+| `src/services/` | Logique métier : notions, challenge, leaderboard |
+| `src/jobs/` | Tâches planifiées (node-cron) |
+| `lib/` | Utilitaires : normalisation, lecture/écriture JSON |
+| `types/` | Types TypeScript (Notion, Question, Scores) |
+| `data/` | Fichiers JSON (notions, questions, scores) |
+
+Détails : [docs/architecture.md](docs/architecture.md).
+
+---
+
+## ?? Configuration
+
+Remplir le fichier `.env` à la racine (à partir de `.env.example`) :
 
 | Variable | Description |
 |----------|-------------|
 | `DISCORD_TOKEN` | Token du bot (Developer Portal ? Bot ? Reset Token) |
 | `DISCUSSIONS_CHANNEL_ID` | ID du salon #discussions (clic droit sur le salon ? Copier l?identifiant) |
-| `WINNER_ROLE_ID` | ID du rï¿½le ï¿½ donner aux gagnants (Paramï¿½tres serveur ? Rï¿½les ? Copier l?identifiant) |
+| `WINNER_ROLE_ID` | ID du rôle à donner aux gagnants (Paramètres serveur ? Rôles ? Copier l?identifiant) |
 
-Configuration dï¿½taillï¿½e (cron, options) : [docs/setup.md](docs/setup.md).
+Configuration détaillée (cron, options) : [docs/setup.md](docs/setup.md).
 
 ---
 
-## Commandes
+## ?? Commandes
 
 | Commande | Description |
 |----------|-------------|
-| `/challenge` | Lance un challenge quiz dans le salon actuel. Le premier ï¿½ rï¿½pondre correctement gagne (rï¿½le + classement). |
+| `/challenge` | Lance un challenge quiz dans le salon actuel. Le premier à répondre correctement gagne (rôle + classement). |
 | `/classement` | Affiche le classement des gagnants (top 10) avec le nombre de victoires. |
 
-Voir [docs/commands.md](docs/commands.md) pour le comportement dï¿½taillï¿½.
+Comportement détaillé : [docs/commands.md](docs/commands.md).
 
 ---
 
-## Donnï¿½es
+## ?? Données
 
-| Fichier | Rï¿½le |
+| Fichier | Rôle |
 |---------|------|
-| `data/notions.json` | Notions ï¿½ poster (blocs RNCP front-end, back-end, transversal) |
+| `data/notions.json` | Notions à poster (blocs RNCP front-end, back-end, transversal) |
 | `data/questions.json` | Questions des challenges |
-| `data/scores.json` | Classement (gï¿½nï¿½rï¿½ automatiquement) |
+| `data/scores.json` | Classement (généré automatiquement) |
 
 ---
 
-## Qualitï¿½
+## ? Qualité
 
-- **Tests** : `npm test` (normalisation des rï¿½ponses, validation des entrï¿½es)
+- **Tests** : `npm test` (normalisation des réponses, validation des entrées)
 - **Build** : `npm run build` (TypeScript)
-- **Config** : validation des variables d?environnement au dï¿½marrage ; aucun secret loggï¿½
+- **Lint** : `npm run lint`
+- **Config** : validation des variables d?environnement au démarrage ; aucun secret loggé
 
 ---
 
-## Documentation
+## ?? Documentation
 
-- [docs/setup.md](docs/setup.md) ? Crï¿½ation du bot, IDs, configuration complï¿½te
-- [docs/commands.md](docs/commands.md) ? Commandes et comportement
-- [docs/architecture.md](docs/architecture.md) ? Architecture, flux, sï¿½curitï¿½
+| Document | Contenu |
+|----------|---------|
+| [docs/setup.md](docs/setup.md) | Création du bot, IDs, configuration complète |
+| [docs/commands.md](docs/commands.md) | Commandes et comportement |
+| [docs/architecture.md](docs/architecture.md) | Architecture, flux, sécurité |
 
 ---
 
-## Licence
+## ?? Licence
 
-MIT (voir [package.json](package.json)).
+MIT ? voir [package.json](package.json) et [LICENSE](LICENSE).
 
 ---
 
 <details>
-<summary>ï¿½ propos du systï¿½me multi-agents (Cursor)</summary>
+<summary>À propos du système multi-agents (Cursor)</summary>
 
-Ce dï¿½pï¿½t peut ï¿½tre utilisï¿½ avec un systï¿½me d?orchestration multi-agents (fichier de configuration + rï¿½les par domaine). Les rï¿½les sont organisï¿½s par catï¿½gories fonctionnelles et sont chargï¿½s dynamiquement pour les tï¿½ches de dï¿½veloppement, documentation et dï¿½ploiement. Le focus principal reste le bot Discord dï¿½crit ci-dessus.
+Ce dépôt peut être utilisé avec un système d?orchestration multi-agents (fichier de configuration + rôles par domaine). Les rôles sont organisés par catégories fonctionnelles et sont chargés dynamiquement pour les tâches de développement, documentation et déploiement. Le focus principal reste le bot Discord décrit ci-dessus.
 </details>
