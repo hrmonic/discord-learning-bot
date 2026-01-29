@@ -1,27 +1,31 @@
-# Bot Discord R�vision RNCP
+# Bot Discord R&eacute;vision RNCP
 
-[![version](https://img.shields.io/badge/version-1.0.0-blue.svg)](package.json)
-[![license](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-339933?logo=node.js)](package.json)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-3178C6?logo=typescript)](package.json)
-[![Discord.js](https://img.shields.io/badge/discord.js-14.14-5865F2?logo=discord)](package.json)
+<div align="center">
 
-**Bot Discord pour la r�vision du Titre RNCP D�veloppeur Web & Web Mobile** : notions automatiques, challenges quiz et classement dans le salon #discussions. Premier qui r�pond gagne (r�le + classement). Tout se passe dans Discord, sans application externe ? Node.js, TypeScript, slash commands, embeds et cron.
+[![version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge)](package.json)
+[![license](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
+[![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen?style=for-the-badge&logo=node.js&logoColor=white)](package.json)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?style=for-the-badge&logo=typescript&logoColor=white)](package.json)
+[![Discord.js](https://img.shields.io/badge/discord.js-14.14-5865F2?style=for-the-badge&logo=discord)](package.json)
+
+**Bot Discord pour la r&eacute;vision du Titre RNCP D&eacute;veloppeur Web &amp; Web Mobile** : notions automatiques, challenges quiz et classement dans le salon #discussions. Premier qui r&eacute;pond gagne (r&ocirc;le + classement). Tout se passe dans Discord, sans application externe &mdash; Node.js, TypeScript, slash commands, embeds et cron.
+
+</div>
 
 ---
 
 ## En bref
 
 - **Commandes slash** : `/challenge` et `/classement` dans le serveur
-- **Notions automatiques** : envoi p�riodique de blocs RNCP (front-end, back-end, transversal) dans #discussions
-- **Challenges quiz** : lancement manuel ou via cron ; le premier � r�pondre correctement gagne un r�le et des points
+- **Notions automatiques** : envoi p&eacute;riodique de blocs RNCP (front-end, back-end, transversal) dans #discussions
+- **Challenges quiz** : lancement manuel ou via cron ; le premier &agrave; r&eacute;pondre correctement gagne un r&ocirc;le et des points
 - **Classement** : top 10 des gagnants avec nombre de victoires
 
 ---
 
 ## Navigation
 
-- [D�marrage rapide](#d�marrage-rapide)
+- [D&eacute;marrage rapide](#d?marrage-rapide)
 - [Documentation](#documentation)
 - [Architecture](#architecture)
 - [Configuration](#configuration)
@@ -29,20 +33,20 @@
 
 ---
 
-## D�marrage rapide
+## D&eacute;marrage rapide
 
-### Pr�requis
+### Pr&eacute;requis
 
-- **Node.js** 18 ou sup�rieur
-- Un **compte Discord** et un serveur o� vous avez les droits d'administrateur
-- Un **bot** cr�� sur le [Discord Developer Portal](https://discord.com/developers/applications) (voir [docs/setup.md](docs/setup.md))
+- **Node.js** 18 ou sup&eacute;rieur
+- Un **compte Discord** et un serveur o&ugrave; vous avez les droits d'administrateur
+- Un **bot** cr&eacute;&eacute; sur le [Discord Developer Portal](https://discord.com/developers/applications) (voir [docs/setup.md](docs/setup.md))
 
 ### Installation
 
 ```bash
 npm install
 cp .env.example .env
-# �diter .env : DISCORD_TOKEN, DISCUSSIONS_CHANNEL_ID, WINNER_ROLE_ID
+# Editer .env : DISCORD_TOKEN, DISCUSSIONS_CHANNEL_ID, WINNER_ROLE_ID
 npm run build
 npm start
 ```
@@ -51,11 +55,11 @@ npm start
 
 ## Architecture
 
-Sch�ma des flux et des composants du bot :
+Sch&eacute;ma des flux et des composants du bot :
 
 ```mermaid
 flowchart TB
-  subgraph entry [Entr�e]
+  subgraph entry [Entree]
     Index[index.ts]
   end
   subgraph config [Config]
@@ -71,12 +75,12 @@ flowchart TB
     ChallengeSvc[challengeService]
     Leaderboard[leaderboardService]
   end
-  subgraph data [Donn�es]
+  subgraph data [Donnees]
     NotionsJSON[notions.json]
     QuestionsJSON[questions.json]
     ScoresJSON[scores.json]
   end
-  subgraph jobs [T�ches planifi�es]
+  subgraph jobs [Taches planifiees]
     NotionJob[notionJob]
     ChallengeJob[challengeJob]
   end
@@ -93,32 +97,32 @@ flowchart TB
   Leaderboard --> ScoresJSON
 ```
 
-| Dossier | R�le |
+| Dossier | R&ocirc;le |
 |--------|------|
-| `src/` | Point d'entr�e, commandes, services, jobs, config |
-| `src/config/` | Configuration centralis�e (env, embeds) |
+| `src/` | Point d'entr&eacute;e, commandes, services, jobs, config |
+| `src/config/` | Configuration centralis&eacute;e (env, embeds) |
 | `src/commands/` | Commandes slash `/challenge`, `/classement` |
-| `src/services/` | Logique m�tier : notions, challenge, leaderboard |
-| `src/jobs/` | T�ches planifi�es (node-cron) |
-| `lib/` | Utilitaires : normalisation, lecture/�criture JSON |
+| `src/services/` | Logique m&eacute;tier : notions, challenge, leaderboard |
+| `src/jobs/` | T&acirc;ches planifi&eacute;es (node-cron) |
+| `lib/` | Utilitaires : normalisation, lecture/&eacute;criture JSON |
 | `types/` | Types TypeScript (Notion, Question, Scores) |
 | `data/` | Fichiers JSON (notions, questions, scores) |
 
-D�tails : [docs/architecture.md](docs/architecture.md).
+D&eacute;tails : [docs/architecture.md](docs/architecture.md).
 
 ---
 
 ## Configuration
 
-Remplir le fichier `.env` � la racine (� partir de `.env.example`) :
+Remplir le fichier `.env` &agrave; la racine (&agrave; partir de `.env.example`) :
 
 | Variable | Description |
 |----------|-------------|
-| `DISCORD_TOKEN` | Token du bot (Developer Portal ? Bot ? Reset Token) |
-| `DISCUSSIONS_CHANNEL_ID` | ID du salon #discussions (clic droit sur le salon ? Copier l'identifiant) |
-| `WINNER_ROLE_ID` | ID du r�le � donner aux gagnants (Param�tres serveur ? R�les ? Copier l'identifiant) |
+| `DISCORD_TOKEN` | Token du bot (Developer Portal &rarr; Bot &rarr; Reset Token) |
+| `DISCUSSIONS_CHANNEL_ID` | ID du salon #discussions (clic droit sur le salon &rarr; Copier l'identifiant) |
+| `WINNER_ROLE_ID` | ID du r&ocirc;le &agrave; donner aux gagnants (Param&egrave;tres serveur &rarr; R&ocirc;les &rarr; Copier l'identifiant) |
 
-Configuration d�taill�e (cron, options) : [docs/setup.md](docs/setup.md).
+Configuration d&eacute;taill&eacute;e (cron, options) : [docs/setup.md](docs/setup.md).
 
 ---
 
@@ -126,29 +130,29 @@ Configuration d�taill�e (cron, options) : [docs/setup.md](docs/setup.md).
 
 | Commande | Description |
 |----------|-------------|
-| `/challenge` | Lance un challenge quiz dans le salon actuel. Le premier � r�pondre correctement gagne (r�le + classement). |
+| `/challenge` | Lance un challenge quiz dans le salon actuel. Le premier &agrave; r&eacute;pondre correctement gagne (r&ocirc;le + classement). |
 | `/classement` | Affiche le classement des gagnants (top 10) avec le nombre de victoires. |
 
-Comportement d�taill� : [docs/commands.md](docs/commands.md).
+Comportement d&eacute;taill&eacute; : [docs/commands.md](docs/commands.md).
 
 ---
 
-## Donn�es
+## Donn&eacute;es
 
-| Fichier | R�le |
+| Fichier | R&ocirc;le |
 |---------|------|
-| `data/notions.json` | Notions � poster (blocs RNCP front-end, back-end, transversal) |
+| `data/notions.json` | Notions &agrave; poster (blocs RNCP front-end, back-end, transversal) |
 | `data/questions.json` | Questions des challenges |
-| `data/scores.json` | Classement (g�n�r� automatiquement) |
+| `data/scores.json` | Classement (g&eacute;n&eacute;r&eacute; automatiquement) |
 
 ---
 
-## Qualit�
+## Qualit&eacute;
 
-- **Tests** : `npm test` (normalisation des r�ponses, validation des entr�es)
+- **Tests** : `npm test` (normalisation des r&eacute;ponses, validation des entr&eacute;es)
 - **Build** : `npm run build` (TypeScript)
 - **Lint** : `npm run lint`
-- **Config** : validation des variables d'environnement au d�marrage ; aucun secret logg�
+- **Config** : validation des variables d'environnement au d&eacute;marrage ; aucun secret logg&eacute;
 
 ---
 
@@ -156,20 +160,20 @@ Comportement d�taill� : [docs/commands.md](docs/commands.md).
 
 | Document | Contenu |
 |----------|---------|
-| [docs/setup.md](docs/setup.md) | Cr�ation du bot, IDs, configuration compl�te |
+| [docs/setup.md](docs/setup.md) | Cr&eacute;ation du bot, IDs, configuration compl&egrave;te |
 | [docs/commands.md](docs/commands.md) | Commandes et comportement |
-| [docs/architecture.md](docs/architecture.md) | Architecture, flux, s�curit� |
+| [docs/architecture.md](docs/architecture.md) | Architecture, flux, s&eacute;curit&eacute; |
 
 ---
 
 ## Licence
 
-MIT ? voir [package.json](package.json) et [LICENSE](LICENSE).
+MIT &mdash; voir [package.json](package.json) et [LICENSE](LICENSE).
 
 ---
 
 <details>
-<summary>� propos du syst�me multi-agents (Cursor)</summary>
+<summary>&Agrave; propos du syst&egrave;me multi-agents (Cursor)</summary>
 
-Ce d�p�t peut �tre utilis� avec un syst�me d'orchestration multi-agents (fichier de configuration + r�les par domaine). Les r�les sont organis�s par cat�gories fonctionnelles et sont charg�s dynamiquement pour les t�ches de d�veloppement, documentation et d�ploiement. Le focus principal reste le bot Discord d�crit ci-dessus.
+Ce d&eacute;p&ocirc;t peut &ecirc;tre utilis&eacute; avec un syst&egrave;me d'orchestration multi-agents (fichier de configuration + r&ocirc;les par domaine). Les r&ocirc;les sont organis&eacute;s par cat&eacute;gories fonctionnelles et sont charg&eacute;s dynamiquement pour les t&acirc;ches de d&eacute;veloppement, documentation et d&eacute;ploiement. Le focus principal reste le bot Discord d&eacute;crit ci-dessus.
 </details>
