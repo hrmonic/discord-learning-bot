@@ -1,0 +1,144 @@
+{
+  "notions": [
+    {
+      "id": "n1",
+      "titre": "Maquetter une interface",
+      "bloc": "frontend",
+      "contenu": "Maquetter : définir la structure et le contenu visuel (wireframe, mockup). Outils : Figma, Adobe XD. Principes : hiérarchie, lisibilité, accessibilité (RGAA).",
+      "tags": ["maquettage", "UX", "Figma"]
+    },
+    {
+      "id": "n2",
+      "titre": "HTML sémantique",
+      "bloc": "frontend",
+      "contenu": "Utiliser les balises selon leur sens : <header>, <nav>, <main>, <article>, <section>, <aside>, <footer>. Cela améliore le SEO et l'accessibilité.",
+      "tags": ["HTML", "sémantique", "accessibilité"]
+    },
+    {
+      "id": "n3",
+      "titre": "CSS : Flexbox",
+      "bloc": "frontend",
+      "contenu": "Flexbox : display: flex sur le parent. Propriétés clés : flex-direction, justify-content, align-items, flex-wrap. Idéal pour les layouts en ligne ou colonne.",
+      "tags": ["CSS", "Flexbox", "layout"]
+    },
+    {
+      "id": "n4",
+      "titre": "CSS : Grid",
+      "bloc": "frontend",
+      "contenu": "CSS Grid : display: grid. Définir grid-template-columns/rows, gap. Placer les enfants avec grid-column, grid-row. Parfait pour les grilles 2D.",
+      "tags": ["CSS", "Grid", "layout"]
+    },
+    {
+      "id": "n5",
+      "titre": "JavaScript : boucle et tableaux",
+      "bloc": "frontend",
+      "contenu": "forEach, map, filter, reduce sur les tableaux. for...of pour itérer. Éviter for...in pour les tableaux (donne les indices en string).",
+      "tags": ["JavaScript", "array", "boucle"]
+    },
+    {
+      "id": "n6",
+      "titre": "JavaScript : asynchrone",
+      "bloc": "frontend",
+      "contenu": "Promises : then/catch ou async/await. fetch() retourne une Promise. Toujours gérer les erreurs avec try/catch en async.",
+      "tags": ["JavaScript", "async", "Promise", "fetch"]
+    },
+    {
+      "id": "n7",
+      "titre": "DOM et événements",
+      "bloc": "frontend",
+      "contenu": "querySelector, addEventListener. event.target, event.preventDefault(). Délégation d'événements : écouter sur le parent pour les enfants dynamiques.",
+      "tags": ["JavaScript", "DOM", "events"]
+    },
+    {
+      "id": "n8",
+      "titre": "Environnement de développement",
+      "bloc": "frontend",
+      "contenu": "IDE (VS Code), Node.js/npm, Git. .gitignore pour node_modules et .env. Variables d'environnement pour les secrets.",
+      "tags": ["outils", "Node", "Git"]
+    },
+    {
+      "id": "n9",
+      "titre": "Base de données relationnelle",
+      "bloc": "backend",
+      "contenu": "Tables, clés primaires, clés étrangères. Normalisation (1NF, 2NF, 3NF). SQL : SELECT, INSERT, UPDATE, DELETE, JOIN.",
+      "tags": ["SQL", "BDD", "relationnel"]
+    },
+    {
+      "id": "n10",
+      "titre": "Requêtes SQL essentielles",
+      "bloc": "backend",
+      "contenu": "SELECT ... FROM ... WHERE, ORDER BY, LIMIT. JOIN (INNER, LEFT). GROUP BY, HAVING. Paramètres préparés pour éviter les injections SQL.",
+      "tags": ["SQL", "requêtes", "sécurité"]
+    },
+    {
+      "id": "n11",
+      "titre": "NoSQL et documents",
+      "bloc": "backend",
+      "contenu": "MongoDB : collections, documents JSON. Pas de schéma fixe. Utile pour données flexibles ou très volumineuses. CRUD avec drivers ou ORM.",
+      "tags": ["NoSQL", "MongoDB", "données"]
+    },
+    {
+      "id": "n12",
+      "titre": "API REST",
+      "bloc": "backend",
+      "contenu": "Verbes HTTP : GET (lire), POST (créer), PUT/PATCH (modifier), DELETE. Codes : 200, 201, 400, 404, 500. JSON comme format d'échange.",
+      "tags": ["API", "REST", "HTTP"]
+    },
+    {
+      "id": "n13",
+      "titre": "Composants métier côté serveur",
+      "bloc": "backend",
+      "contenu": "Logique métier dans le back (PHP, Node, etc.). Séparation : routes → contrôleurs → services → accès données. Pas de logique métier dans les vues.",
+      "tags": ["backend", "architecture", "MVC"]
+    },
+    {
+      "id": "n14",
+      "titre": "Déploiement et documentation",
+      "bloc": "backend",
+      "contenu": "Documenter l'installation, les variables d'env, la commande de déploiement. Docker pour reproductibilité. CI/CD pour automatiser build et déploiement.",
+      "tags": ["déploiement", "Docker", "documentation"]
+    },
+    {
+      "id": "n15",
+      "titre": "Sécurité web",
+      "bloc": "transversal",
+      "contenu": "Injection SQL (requêtes préparées), XSS (échapper les sorties), CSRF (tokens). HTTPS, mots de passe hashés (bcrypt). Ne jamais exposer les secrets.",
+      "tags": ["sécurité", "XSS", "injection"]
+    },
+    {
+      "id": "n16",
+      "titre": "RGPD et données personnelles",
+      "bloc": "transversal",
+      "contenu": "Consentement, droit d'accès, de rectification, à l'effacement. Minimiser les données collectées. Documenter le traitement (registre).",
+      "tags": ["RGPD", "données personnelles", "légal"]
+    },
+    {
+      "id": "n17",
+      "titre": "Accessibilité (RGAA)",
+      "bloc": "transversal",
+      "contenu": "Contraste, textes alternatifs (alt), structure des titres, navigation au clavier, labels sur les formulaires. Tester avec un lecteur d'écran.",
+      "tags": ["RGAA", "accessibilité", "a11y"]
+    },
+    {
+      "id": "n18",
+      "titre": "Git : workflow de base",
+      "bloc": "transversal",
+      "contenu": "git clone, pull, add, commit, push. Branches : feature/xxx, main. Merge ou rebase. Ne pas commit node_modules ni .env.",
+      "tags": ["Git", "workflow", "versioning"]
+    },
+    {
+      "id": "n19",
+      "titre": "Méthodologie Agile / Scrum",
+      "bloc": "transversal",
+      "contenu": "Sprints, backlog, daily, démo, rétro. Rôle du Product Owner et du Scrum Master. Livrer de la valeur de façon itérative.",
+      "tags": ["Agile", "Scrum", "méthodologie"]
+    },
+    {
+      "id": "n20",
+      "titre": "Modélisation : Merise et UML",
+      "bloc": "backend",
+      "contenu": "Merise : MCD (entités, associations, cardinalités). UML : cas d'usage, diagrammes de classe. De la conception à la BDD et au code.",
+      "tags": ["Merise", "UML", "modélisation"]
+    }
+  ]
+}
