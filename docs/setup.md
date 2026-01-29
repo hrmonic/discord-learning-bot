@@ -100,7 +100,7 @@ Tout se configure avec des **IDs** (salon, rôle). Mode développeur Discord :
 
 Ensuite :
 
-- **ID du salon #discussions** : clic droit sur le salon → **« Copier l’identifiant du canal »** → à mettre dans `.env` en `DISCUSSIONS_CHANNEL_ID`.
+- **ID du salon de discussions** : clic droit sur le salon (le nom peut contenir des emojis, ex. ✨💬discussions-✨) → **« Copier l’identifiant du canal »** → à mettre dans `.env` en `DISCUSSIONS_CHANNEL_ID`. Le bot cible le canal par son **ID**, pas par son nom.
 - **ID du rôle gagnant** : **Paramètres du serveur** → **Rôles** → clic droit sur le rôle (ex. « Champion Quiz ») → **« Copier l’identifiant du rôle »** → à mettre en `WINNER_ROLE_ID`.
 
 ---
