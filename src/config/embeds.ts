@@ -45,6 +45,8 @@ export const Copy = {
   VICTORY_ANSWER: (answer: string) => `Bonne réponse : **${answer}**.`,
   /** Victoire : explication. */
   VICTORY_HINT: (text: string) => `\n\n💡 ${text}`,
+  /** Victoire : titre de l'embed. */
+  VICTORY_TITLE: '🎉 Victoire',
   /** Commande : challenge lancé (ephemeral). */
   CMD_CHALLENGE_LAUNCHED: (theme: string) =>
     `Challenge lancé. Thème : **${theme}**. Réponds dans le salon avec la bonne réponse.`,

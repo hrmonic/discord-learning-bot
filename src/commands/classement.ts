@@ -19,7 +19,15 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     ? await Promise.all(
         entries.map(async (e, i) => {
           const rank = i + 1;
-          const medal = rank === 1 ? '\u{1F947}' : rank === 2 ? '\u{1F948}' : rank === 3 ? '\u{1F949}' : `**${rank}.**`;
+          // Emojis de médaille pour les 3 premiers, numéro pour les autres
+          const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : `**${rank}.**`;
+          
+          // Distinction visuelle pour le champion (#1)
+          const crown = rank === 1 ? '👑 ' : '';
+          
+          // Badge pour les scores élevés (10+ victoires)
+          const starBadge = e.victories >= 10 ? ' ⭐' : '';
+          
           let name = e.userId;
           if (guild) {
             try {
@@ -29,8 +37,10 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
               // keep userId
             }
           }
+          
           const plural = e.victories > 1 ? 's' : '';
-          return `${medal} **${name}** — ${e.victories} victoire${plural}`;
+          // Format uniforme : médaille/numéro + couronne (si #1) + nom + séparateur + score + badge (si 10+)
+          return `${medal} ${crown}**${name}** • **${e.victories} victoire${plural}**${starBadge}`;
         })
       )
     : [Copy.LEADERBOARD_EMPTY];

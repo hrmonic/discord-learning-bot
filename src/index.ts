@@ -140,7 +140,7 @@ client.on(Events.MessageCreate, async (message) => {
   const victoryText = `${Copy.VICTORY_PREFIX(message.author.username)} ${Copy.VICTORY_ANSWER(active.question.reponse)}${explications}`;
   const embed = new EmbedBuilder()
     .setColor(EmbedColors.VICTORY)
-    .setTitle('Victoire')
+    .setTitle(Copy.VICTORY_TITLE)
     .setDescription(victoryText)
     .setFooter({ text: FOOTER_BRAND })
     .setTimestamp();

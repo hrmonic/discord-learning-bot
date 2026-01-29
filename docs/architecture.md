@@ -14,8 +14,8 @@ flowchart TB
     Embeds[embeds.ts]
   end
   subgraph commands [Commandes slash]
-    Challenge[/challenge]
-    Classement[/classement]
+    Challenge["/challenge"]
+    Classement["/classement"]
   end
   subgraph services [Services]
     Notions[notionsService]
