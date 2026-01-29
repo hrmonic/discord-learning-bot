@@ -1,73 +1,97 @@
-# Cursor Multi-Agent System + Bot Discord Rï¿½vision RNCP
+# Bot Discord ? Révision RNCP
 
-## Bot Discord (rï¿½vision Titre RNCP Dï¿½veloppeur Web & Web Mobile)
+Bot Discord pour la **révision du Titre RNCP Développeur Web & Web Mobile** : notions automatiques, challenges quiz et classement dans le salon #discussions. Premier qui répond gagne (rôle + classement). Tout se passe dans Discord, sans application externe.
 
-Bot **intï¿½grï¿½ ï¿½ Discord** (aucune application externe) : notions de rï¿½vision et challenges quiz dans le salon #discussions. Premier qui rï¿½pond gagne (rï¿½le + classement).
+---
 
-### Prï¿½requis
+## Fonctionnalités
 
-- Node.js 18+
-- Un bot crï¿½ï¿½ sur le [Discord Developer Portal](https://discord.com/developers/applications) (voir [docs/setup.md](docs/setup.md))
+- **Commandes slash** : `/challenge` et `/classement` dans le serveur
+- **Notions automatiques** : envoi périodique de blocs RNCP (front-end, back-end, transversal) dans #discussions
+- **Challenges quiz** : lancement manuel ou via cron ; le premier à répondre correctement gagne un rôle et des points
+- **Classement** : top 10 des gagnants avec nombre de victoires
 
-### Installation
+---
+
+## Prérequis
+
+- **Node.js** 18 ou supérieur
+- Un **compte Discord** et un serveur où vous avez les droits d?administrateur
+- Un **bot** créé sur le [Discord Developer Portal](https://discord.com/developers/applications) (voir [docs/setup.md](docs/setup.md) pour la création du bot et les permissions)
+
+---
+
+## Installation
 
 ```bash
 npm install
 cp .env.example .env
-# ï¿½diter .env : DISCORD_TOKEN, DISCUSSIONS_CHANNEL_ID, WINNER_ROLE_ID
+# Éditer .env : DISCORD_TOKEN, DISCUSSIONS_CHANNEL_ID, WINNER_ROLE_ID
 npm run build
 npm start
 ```
 
-### Commandes
+---
 
-- `/challenge` ? Lance un challenge dans le salon
-- `/classement` ? Affiche le top 10 des gagnants
+## Configuration
 
-### Donnï¿½es
+Remplir le fichier `.env` à la racine (à partir de `.env.example`) :
 
-- `data/notions.json` ? Notions ï¿½ poster (blocs RNCP front-end, back-end, transversal)
-- `data/questions.json` ? Questions des challenges
-- `data/scores.json` ? Classement (gï¿½nï¿½rï¿½ automatiquement)
+| Variable | Description |
+|----------|-------------|
+| `DISCORD_TOKEN` | Token du bot (Developer Portal ? Bot ? Reset Token) |
+| `DISCUSSIONS_CHANNEL_ID` | ID du salon #discussions (clic droit sur le salon ? Copier l?identifiant) |
+| `WINNER_ROLE_ID` | ID du rôle à donner aux gagnants (Paramètres serveur ? Rôles ? Copier l?identifiant) |
 
-Documentation dï¿½taillï¿½e : [docs/setup.md](docs/setup.md) (crï¿½ation du bot, IDs), [docs/commands.md](docs/commands.md), [docs/architecture.md](docs/architecture.md) (architecture, flux, sï¿½curitï¿½).
-
-### Qualitï¿½
-
-- **Tests** : `npm test` (normalisation des rï¿½ponses, validation des entrï¿½es).
-- **Build** : `npm run build` (TypeScript).
-- **Config** : validation des variables d?environnement au dï¿½marrage ; aucun secret loggï¿½.
+Configuration détaillée (cron, options) : [docs/setup.md](docs/setup.md).
 
 ---
 
-## Cursor Multi-Agent System
+## Commandes
 
-This folder contains:
+| Commande | Description |
+|----------|-------------|
+| `/challenge` | Lance un challenge quiz dans le salon actuel. Le premier à répondre correctement gagne (rôle + classement). |
+| `/classement` | Affiche le classement des gagnants (top 10) avec le nombre de victoires. |
 
-- `system.md`: the orchestrating master prompt for Cursor. This file handles orchestration, role selection, and confirms which roles will be used before executing any task.
-- `agents/`: folder with all role-specific agent files, organized by functional categories:
-  - `build-engineering/`
-  - `croissance-positionnement/`
-  - `data-metrics/`
-  - `legal-compliance/`
-  - `narrative-audio-writing-contents/`
-  - `operations-executions/`
-  - `produit-design/`
-  - `qualite-tests-validation/`
-  - `social-networks/`
-  - `strategie-structuration/`
-- `README.md`: info System
+Voir [docs/commands.md](docs/commands.md) pour le comportement détaillé.
 
-## Usage
+---
 
-1. Cursor will automatically read `system.md` at runtime.
-2. Cursor dynamically selects and activates only the relevant roles from `/agents/` for any task.
-3. Before executing a task, Cursor **confirms in the chat which roles it will use**, ensuring transparency and precision.
-4. All outputs are unified, coherent, and production-ready.
-5. Do not edit `system.md` directly unless updating orchestration rules, best practices, or adding new global behavior.
+## Données
 
-## Notes
+| Fichier | Rôle |
+|---------|------|
+| `data/notions.json` | Notions à poster (blocs RNCP front-end, back-end, transversal) |
+| `data/questions.json` | Questions des challenges |
+| `data/scores.json` | Classement (généré automatiquement) |
 
-- Each agent role in `/agents/` contains mission, mindset, inputs, outputs, constraints, and goals.
-- Folder structure reflects functional areas to maintain clarity, maintainability, and scalability.
-- You can add or remove agent files without breaking orchestrationï¿½`system.md` will adapt dynamically.
+---
+
+## Qualité
+
+- **Tests** : `npm test` (normalisation des réponses, validation des entrées)
+- **Build** : `npm run build` (TypeScript)
+- **Config** : validation des variables d?environnement au démarrage ; aucun secret loggé
+
+---
+
+## Documentation
+
+- [docs/setup.md](docs/setup.md) ? Création du bot, IDs, configuration complète
+- [docs/commands.md](docs/commands.md) ? Commandes et comportement
+- [docs/architecture.md](docs/architecture.md) ? Architecture, flux, sécurité
+
+---
+
+## Licence
+
+MIT (voir [package.json](package.json)).
+
+---
+
+<details>
+<summary>À propos du système multi-agents (Cursor)</summary>
+
+Ce dépôt peut être utilisé avec un système d?orchestration multi-agents (fichier de configuration + rôles par domaine). Les rôles sont organisés par catégories fonctionnelles et sont chargés dynamiquement pour les tâches de développement, documentation et déploiement. Le focus principal reste le bot Discord décrit ci-dessus.
+</details>
