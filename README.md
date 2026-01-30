@@ -106,7 +106,9 @@ flowchart TB
 | `src/jobs/` | T&acirc;ches planifi&eacute;es (node-cron) |
 | `lib/` | Utilitaires : normalisation, lecture/&eacute;criture JSON |
 | `types/` | Types TypeScript (Notion, Question, Scores) |
-| `data/` | Fichiers JSON (notions, questions, scores) |
+| `data/` | Fichiers JSON (notions, questions, scores). **Source unique &agrave; conserver** : le bot ne lit que ces fichiers ; on les &eacute;dite directement. |
+
+**Stack** : 100 % TypeScript en source. **Donn&eacute;es** : seuls les JSON dans `data/` font r&eacute;f&eacute;rence ; &agrave; &eacute;diter et conserver (pas de g&eacute;n&eacute;ration depuis le code).
 
 D&eacute;tails : [docs/architecture.md](docs/architecture.md).
 

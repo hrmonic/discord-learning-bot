@@ -13,7 +13,8 @@ const DATA_DIR = join(process.cwd(), 'data');
 
 const EMPTY_SCORES: ScoresData = { scores: {}, history: [] };
 
-function normalizeScores(data: unknown): ScoresData {
+/** Normalizes raw parsed JSON into ScoresData. Exported for unit tests. */
+export function normalizeScores(data: unknown): ScoresData {
   if (data == null || typeof data !== 'object') return EMPTY_SCORES;
   const o = data as Record<string, unknown>;
   const scores: Record<string, UserScore> = {};

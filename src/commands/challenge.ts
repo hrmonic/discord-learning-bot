@@ -9,12 +9,16 @@ import {
   isChallengeActiveInChannel,
 } from '../services/challengeService.js';
 import { Copy } from '../config/embeds.js';
+import type { BotConfig } from '../config/env.js';
 
 export const data = new SlashCommandBuilder()
   .setName('challenge')
   .setDescription('Lance un challenge quiz dans ce salon (premier qui répond gagne)');
 
-export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
+export async function execute(
+  interaction: ChatInputCommandInteraction,
+  config: BotConfig
+): Promise<void> {
   const channel = interaction.channel;
   if (!channel?.isTextBased() || channel.isDMBased()) {
     await interaction.reply({ content: Copy.CMD_WRONG_CHANNEL, ephemeral: true });
@@ -26,7 +30,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     return;
   }
 
-  const timeoutMs = parseInt(process.env.CHALLENGE_TIMEOUT_MS ?? '300000', 10) || 300000;
+  const timeoutMs = config.challengeTimeoutMs;
 
   const onTimeout = async () => {
     const { Copy: C } = await import('../config/embeds.js');

@@ -10,31 +10,22 @@ import {
   REST,
   Routes,
   Events,
-  EmbedBuilder,
   type TextChannel,
 } from 'discord.js';
 import cron from 'node-cron';
 import { commands, getCommand } from './commands/index.js';
-import {
-  getActiveChallenge,
-  clearActiveChallenge,
-  checkAnswer,
-} from './services/challengeService.js';
-import { addVictory, giveWinnerRole } from './services/leaderboardService.js';
-import { EmbedColors, Copy, FOOTER_BRAND } from './config/embeds.js';
+import { Copy } from './config/embeds.js';
 import { loadConfig } from './config/env.js';
-import { isValidAnswerInput } from './lib/validation.js';
+import { handleChallengeWin } from './lib/challengeWinHandler.js';
 
 const config = loadConfig();
 const {
   token,
   discussionsChannelId,
-  winnerRoleId,
   notionCron,
   challengeCron,
   challengeTimeoutMs,
   hasDiscussionsChannel,
-  hasWinnerRole,
 } = config;
 
 const client = new Client({
@@ -92,7 +83,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
   const cmd = getCommand(interaction.commandName);
   if (!cmd) return;
   try {
-    await cmd.execute(interaction);
+    await cmd.execute(interaction, config);
   } catch (err) {
     console.error('Command error:', err instanceof Error ? err.message : String(err));
     const reply = { content: Copy.CMD_ERROR, ephemeral: true };
@@ -105,48 +96,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 });
 
 client.on(Events.MessageCreate, async (message) => {
-  if (message.author.bot) return;
-  const active = getActiveChallenge();
-  if (!active || active.channelId !== message.channel.id) return;
-
-  const content = message.content.trim();
-  if (!isValidAnswerInput(content)) return;
-
-  if (!checkAnswer(content)) return;
-
-  const questionId = active.question.id;
-  const explications = active.question.explications
-    ? Copy.VICTORY_HINT(active.question.explications)
-    : '';
-  clearActiveChallenge();
-
-  const userId = message.author.id;
-  let member = message.guild?.members.cache.get(userId) ?? null;
-  if (message.guild && !member) {
-    member = await message.guild.members.fetch(userId).catch(() => null);
-  }
-
-  try {
-    await addVictory(userId, questionId);
-    if (hasWinnerRole && member) {
-      await giveWinnerRole(member, winnerRoleId);
-    }
-  } catch (err) {
-    console.error('Winner flow error:', err instanceof Error ? err.message : String(err));
-    await message.reply({ content: Copy.CMD_ERROR }).catch(() => {});
-    return;
-  }
-
-  const victoryText = `${Copy.VICTORY_PREFIX(message.author.username)} ${Copy.VICTORY_ANSWER(active.question.reponse)}${explications}`;
-  const embed = new EmbedBuilder()
-    .setColor(EmbedColors.VICTORY)
-    .setTitle(Copy.VICTORY_TITLE)
-    .setDescription(victoryText)
-    .setFooter({ text: FOOTER_BRAND })
-    .setTimestamp();
-  await message.reply({ embeds: [embed] }).catch((err) => {
-    console.error('Victory reply error:', err instanceof Error ? err.message : String(err));
-  });
+  await handleChallengeWin(message, config);
 });
 
 client.login(token).catch((err) => {

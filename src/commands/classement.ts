@@ -6,12 +6,16 @@ import type { ChatInputCommandInteraction } from 'discord.js';
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import { getLeaderboard } from '../services/leaderboardService.js';
 import { EmbedColors, FOOTER_BRAND, Copy } from '../config/embeds.js';
+import type { BotConfig } from '../config/env.js';
 
 export const data = new SlashCommandBuilder()
   .setName('classement')
   .setDescription('Affiche le classement des gagnants des challenges');
 
-export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
+export async function execute(
+  interaction: ChatInputCommandInteraction,
+  _config: BotConfig
+): Promise<void> {
   const entries = await getLeaderboard(10);
   const guild = interaction.guild;
 

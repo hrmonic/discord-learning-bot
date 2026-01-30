@@ -36,7 +36,7 @@
       "id": "q5",
       "question": "Quelle balise HTML définit un pied de page ou de section ?",
       "reponse": "footer",
-      "explications": "footer contient les infos de bas de page.",
+      "explications": "footer contient infos de bas de page.",
       "difficulte": "facile",
       "theme": "HTML"
     },
@@ -338,7 +338,7 @@
     },
     {
       "id": "q43",
-      "question": "Quelle valeur de l'attribut rel de <link> indique une feuille CSS ?",
+      "question": "Quel attribut de <link> indique une feuille CSS ?",
       "reponse": "stylesheet",
       "explications": "rel=\"stylesheet\".",
       "difficulte": "facile",
@@ -372,7 +372,7 @@
       "id": "q47",
       "question": "Quelle balise HTML crée une liste déroulante ?",
       "reponse": "select",
-      "explications": "select avec des options à l'intérieur.",
+      "explications": "select avec des option à l'intérieur.",
       "difficulte": "facile",
       "theme": "HTML"
     },
@@ -380,7 +380,7 @@
       "id": "q48",
       "question": "Quelle balise HTML définit une option dans un <select> ?",
       "reponse": "option",
-      "explications": "<option value=\"valeur\">Libellé.",
+      "explications": "option value=\"valeur\">Libellé.",
       "difficulte": "facile",
       "theme": "HTML"
     },
@@ -1868,7 +1868,7 @@
       "id": "q234",
       "question": "Quelle balise HTML définit un pied de page ou de section ?",
       "reponse": "footer",
-      "explications": "footer contient les infos de bas de page.",
+      "explications": "footer contient infos de bas de page.",
       "difficulte": "facile",
       "theme": "HTML"
     },
@@ -3690,7 +3690,7 @@
     },
     {
       "id": "q462",
-      "question": "Quelle valeur de l'attribut rel de <link> indique une feuille CSS ?",
+      "question": "Quel attribut de <link> indique une feuille CSS ?",
       "reponse": "stylesheet",
       "explications": "rel=\"stylesheet\".",
       "difficulte": "facile",
@@ -3884,7 +3884,7 @@
       "id": "q486",
       "question": "Quelle balise HTML crée une liste déroulante ?",
       "reponse": "select",
-      "explications": "select avec des options à l'intérieur.",
+      "explications": "select avec des option à l'intérieur.",
       "difficulte": "facile",
       "theme": "HTML"
     },
@@ -3932,7 +3932,7 @@
       "id": "q492",
       "question": "Quelle balise HTML définit une option dans un <select> ?",
       "reponse": "option",
-      "explications": "<option value=\"valeur\">Libellé.",
+      "explications": "option value=\"valeur\">Libellé.",
       "difficulte": "facile",
       "theme": "HTML"
     },
@@ -4268,7 +4268,7 @@
       "id": "q534",
       "question": "Quelle balise HTML définit un pied de page ou de section ?",
       "reponse": "footer",
-      "explications": "footer contient les infos de bas de page.",
+      "explications": "footer contient infos de bas de page.",
       "difficulte": "facile",
       "theme": "HTML"
     },
@@ -6090,7 +6090,7 @@
     },
     {
       "id": "q762",
-      "question": "Quelle valeur de l'attribut rel de <link> indique une feuille CSS ?",
+      "question": "Quel attribut de <link> indique une feuille CSS ?",
       "reponse": "stylesheet",
       "explications": "rel=\"stylesheet\".",
       "difficulte": "facile",
@@ -6284,7 +6284,7 @@
       "id": "q786",
       "question": "Quelle balise HTML crée une liste déroulante ?",
       "reponse": "select",
-      "explications": "select avec des options à l'intérieur.",
+      "explications": "select avec des option à l'intérieur.",
       "difficulte": "facile",
       "theme": "HTML"
     },
@@ -6332,7 +6332,7 @@
       "id": "q792",
       "question": "Quelle balise HTML définit une option dans un <select> ?",
       "reponse": "option",
-      "explications": "<option value=\"valeur\">Libellé.",
+      "explications": "option value=\"valeur\">Libellé.",
       "difficulte": "facile",
       "theme": "HTML"
     },
@@ -6668,7 +6668,7 @@
       "id": "q834",
       "question": "Quelle balise HTML définit un pied de page ou de section ?",
       "reponse": "footer",
-      "explications": "footer contient les infos de bas de page.",
+      "explications": "footer contient infos de bas de page.",
       "difficulte": "facile",
       "theme": "HTML"
     },

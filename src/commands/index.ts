@@ -3,12 +3,13 @@
  */
 
 import type { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
+import type { BotConfig } from '../config/env.js';
 import * as challenge from './challenge.js';
 import * as classement from './classement.js';
 
 export interface Command {
   data: SlashCommandBuilder;
-  execute: (interaction: ChatInputCommandInteraction) => Promise<void>;
+  execute: (interaction: ChatInputCommandInteraction, config: BotConfig) => Promise<void>;
 }
 
 export const commands: Command[] = [

@@ -56,7 +56,12 @@ flowchart TB
 | `src/lib/` | Helpers (validation des entrées). |
 | `lib/` | Utilitaires partagés : normalisation des réponses, lecture/écriture JSON. |
 | `types/` | Types TypeScript (Notion, Question, Scores). |
-| `data/` | Fichiers JSON (notions, questions, scores). |
+| `data/` | Fichiers JSON (notions, questions, scores). **Source unique à conserver** : le bot ne lit que ces JSON ; on les édite directement. |
+
+### Source unique des données (JSON)
+
+- **Source de vérité** : `data/notions.json`, `data/questions.json` et `data/scores.json`. Aucune donnée de quiz n’est codée dans le code.
+- **Édition** : pour ajouter ou modifier des questions ou notions, éditer directement les fichiers JSON dans `data/`. Ils sont la référence à conserver.
 
 ## Flux principaux
 
