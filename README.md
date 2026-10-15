@@ -1,181 +1,108 @@
-# Bot Discord R&eacute;vision RNCP
+<p align="center"><img src="docs/assets/project-hero.svg" alt="Discord Learning Bot — Discord learning automation with scheduled lessons, quiz challenges and leaderboard" width="100%"></p>
 
-<div align="center">
+<h1 align="center">Discord Learning Bot</h1>
 
-[![version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge)](package.json)
-[![license](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
-[![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen?style=for-the-badge&logo=node.js&logoColor=white)](package.json)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?style=for-the-badge&logo=typescript&logoColor=white)](package.json)
-[![Discord.js](https://img.shields.io/badge/discord.js-14.14-5865F2?style=for-the-badge&logo=discord)](package.json)
+<p align="center"><strong>A TypeScript Discord bot that turns RNCP web development revision into scheduled learning prompts and interactive community challenges.</strong></p>
 
-**Bot Discord pour la r&eacute;vision du Titre RNCP D&eacute;veloppeur Web &amp; Web Mobile** : notions automatiques, challenges quiz et classement dans le salon #discussions. Premier qui r&eacute;pond gagne (r&ocirc;le + classement). Tout se passe dans Discord, sans application externe &mdash; Node.js, TypeScript, slash commands, embeds et cron.
+<p align="center"><a href="README.fr.md">Lire en français</a> · <a href="#overview">Overview</a> · <a href="#features">Features</a> · <a href="#architecture">Architecture</a> · <a href="#start">Get started</a> · <a href="#quality">Quality</a> · <a href="#faq">FAQ</a> · <a href="#license">License</a></p>
 
-</div>
+<p align="center"><a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-475569"></a> <img alt="Stack" src="https://img.shields.io/badge/stack-Node.js%20%2F%20TypeScript-475569"></p>
 
----
+<a id="overview"></a>
+## Overview
 
-## En bref
+Discord Learning Bot was built to support group revision for the French RNCP Web and Mobile Web Developer qualification. It posts technical concepts to a designated Discord channel, runs quiz challenges and displays a simple ranking — all from within Discord, without a separate web interface.
 
-- **Commandes slash** : `/challenge` et `/classement` dans le serveur
-- **Notions automatiques** : envoi p&eacute;riodique de blocs RNCP (front-end, back-end, transversal) dans #discussions
-- **Challenges quiz** : lancement manuel ou via cron ; le premier &agrave; r&eacute;pondre correctement gagne un r&ocirc;le et des points
-- **Classement** : top 10 des gagnants avec nombre de victoires
+**Intended audience :** Developer training groups, learning communities, tutors and Discord server administrators.
 
----
+**Example workflow:** A scheduled job publishes a web development concept in the discussions channel. A participant launches a challenge with a slash command; the earliest correct response earns a point and an optional Discord role.
 
-## Navigation
+<a id="features"></a>
+## Features
 
-- [D&eacute;marrage rapide](#d?marrage-rapide)
-- [Documentation](#documentation)
-- [Architecture](#architecture)
-- [Configuration](#configuration)
-- [Licence](#licence)
+| Capability | Description |
+| --- | --- |
+| **Scheduled concepts** | Periodic RNCP revision content posted to a configured discussion channel. |
+| **Quiz challenges** | Manual slash command and scheduled challenges. |
+| **Scoreboard** | Top-ranked participants based on wins. |
+| **Role assignment** | Assign a configured role to the winner of a challenge. |
+| **Structured learning data** | Question, concept and score data held in JSON files. |
+| **Discord-native interactions** | Slash commands and messages through discord.js. |
 
----
+<a id="architecture"></a>
+## Technical architecture
 
-## D&eacute;marrage rapide
+The project uses TypeScript with Discord.js 14, node-cron jobs, service modules and JSON-based data storage. Source code lives in src/, supporting utilities in lib/, TypeScript types in types/, and questions/concepts/scores in data/. There is no database server or dedicated dashboard.
 
-### Pr&eacute;requis
+**Commands:** /challenge starts a quiz and /classement displays the ranking. Scheduling and IDs are configured using environment variables. Deployment requires a running Node.js process connected to Discord's API.
 
-- **Node.js** 18 ou sup&eacute;rieur
-- Un **compte Discord** et un serveur o&ugrave; vous avez les droits d'administrateur
-- Un **bot** cr&eacute;&eacute; sur le [Discord Developer Portal](https://discord.com/developers/applications) (voir [docs/setup.md](docs/setup.md))
+<a id="start"></a>
+## Getting started
 
-### Installation
+**Requirements:** Node.js 18 or newer, a Discord application and a server where you can grant the bot the permissions needed for commands, messages and roles. Create a local .env file from the provided example; never commit the bot token.
 
 ```bash
-npm install
+git clone https://github.com/hrmonic/discord-learning-bot.git
+cd discord-learning-bot
+npm ci
 cp .env.example .env
-# Editer .env : DISCORD_TOKEN, DISCUSSIONS_CHANNEL_ID, WINNER_ROLE_ID
+# Configure DISCORD_TOKEN, DISCUSSIONS_CHANNEL_ID, WINNER_ROLE_ID
 npm run build
 npm start
 ```
 
----
+On Windows, copy .env.example to .env manually if cp is unavailable. Complete the Discord application registration described in docs/setup.md. A running process is required for the bot to remain online.
 
-## Architecture
+<a id="quality"></a>
+## Quality, security and limitations
 
-Sch&eacute;ma des flux et des composants du bot :
+The repository contains Jest tests for answer normalization, JSON reading, validation and leaderboard behavior, plus TypeScript and ESLint scripts. Automated GitHub CI has not been identified in the current repository; tests should be executed locally before deployment.
 
-```mermaid
-flowchart TB
-  subgraph entry [Entree]
-    Index[index.ts]
-  end
-  subgraph config [Config]
-    Env[env.ts]
-    Embeds[embeds.ts]
-  end
-  subgraph commands [Commandes slash]
-    Challenge["/challenge"]
-    Classement["/classement"]
-  end
-  subgraph services [Services]
-    Notions[notionsService]
-    ChallengeSvc[challengeService]
-    Leaderboard[leaderboardService]
-  end
-  subgraph data [Donnees]
-    NotionsJSON[notions.json]
-    QuestionsJSON[questions.json]
-    ScoresJSON[scores.json]
-  end
-  subgraph jobs [Taches planifiees]
-    NotionJob[notionJob]
-    ChallengeJob[challengeJob]
-  end
-  Index --> Env
-  Index --> Embeds
-  Index --> commands
-  Index --> services
-  Challenge --> ChallengeSvc
-  Classement --> Leaderboard
-  NotionJob --> Notions
-  ChallengeJob --> ChallengeSvc
-  Notions --> NotionsJSON
-  ChallengeSvc --> QuestionsJSON
-  Leaderboard --> ScoresJSON
-```
+### Known limitations and safeguards
 
-| Dossier | R&ocirc;le |
-|--------|------|
-| `src/` | Point d'entr&eacute;e, commandes, services, jobs, config |
-| `src/config/` | Configuration centralis&eacute;e (env, embeds) |
-| `src/commands/` | Commandes slash `/challenge`, `/classement` |
-| `src/services/` | Logique m&eacute;tier : notions, challenge, leaderboard |
-| `src/jobs/` | T&acirc;ches planifi&eacute;es (node-cron) |
-| `lib/` | Utilitaires : normalisation, lecture/&eacute;criture JSON |
-| `types/` | Types TypeScript (Notion, Question, Scores) |
-| `data/` | Fichiers JSON (notions, questions, scores). **Source unique &agrave; conserver** : le bot ne lit que ces fichiers ; on les &eacute;dite directement. |
+- Never publish the Discord bot token or other private IDs.
+- JSON score storage is suitable for a small community but needs attention to backups and concurrent writes.
+- The bot only remains online while its Node.js process is running.
+- The learning content focuses on one training context, not a general learning management system.
 
-**Stack** : 100 % TypeScript en source. **Donn&eacute;es** : seuls les JSON dans `data/` font r&eacute;f&eacute;rence ; &agrave; &eacute;diter et conserver (pas de g&eacute;n&eacute;ration depuis le code).
+### Potential improvements
 
-D&eacute;tails : [docs/architecture.md](docs/architecture.md).
+- Add a basic test/build workflow in GitHub Actions.
+- Improve portability beyond the initial RNCP topic catalog.
+- Document repeatable bot deployment and persistence backups.
+
+### Further documentation
+
+- [Complete bot setup](docs/setup.md)
+- [Commands and behavior](docs/commands.md)
+- [Architecture](docs/architecture.md)
+
+<a id="faq"></a>
+## Frequently asked questions
+
+### Does this require an external website?
+
+No. Interactions happen within Discord, but a Node.js process must host the bot.
+
+### Can I schedule quiz challenges?
+
+Yes. The repository includes node-cron jobs and configuration for scheduled activity.
+
+### Where are scores stored?
+
+The project uses JSON files in the data/ directory.
+
+### What is the primary learning audience?
+
+The initial question bank focuses on the RNCP Web and Mobile Web Developer curriculum.
+
+<a id="license"></a>
+## License and maintainer
+
+Released under the **[MIT License](LICENSE)**. Use and contributions are subject to that license.
+
+**Maintainer:** [Réda Touzani (@hrmonic)](https://github.com/hrmonic).
 
 ---
 
-## Configuration
-
-Remplir le fichier `.env` &agrave; la racine (&agrave; partir de `.env.example`) :
-
-| Variable | Description |
-|----------|-------------|
-| `DISCORD_TOKEN` | Token du bot (Developer Portal &rarr; Bot &rarr; Reset Token) |
-| `DISCUSSIONS_CHANNEL_ID` | ID du salon #discussions (clic droit sur le salon &rarr; Copier l'identifiant) |
-| `WINNER_ROLE_ID` | ID du r&ocirc;le &agrave; donner aux gagnants (Param&egrave;tres serveur &rarr; R&ocirc;les &rarr; Copier l'identifiant) |
-
-Configuration d&eacute;taill&eacute;e (cron, options) : [docs/setup.md](docs/setup.md).
-
----
-
-## Commandes
-
-| Commande | Description |
-|----------|-------------|
-| `/challenge` | Lance un challenge quiz dans le salon actuel. Le premier &agrave; r&eacute;pondre correctement gagne (r&ocirc;le + classement). |
-| `/classement` | Affiche le classement des gagnants (top 10) avec le nombre de victoires. |
-
-Comportement d&eacute;taill&eacute; : [docs/commands.md](docs/commands.md).
-
----
-
-## Donn&eacute;es
-
-| Fichier | R&ocirc;le |
-|---------|------|
-| `data/notions.json` | Notions &agrave; poster (blocs RNCP front-end, back-end, transversal) |
-| `data/questions.json` | Questions des challenges |
-| `data/scores.json` | Classement (g&eacute;n&eacute;r&eacute; automatiquement) |
-
----
-
-## Qualit&eacute;
-
-- **Tests** : `npm test` (normalisation des r&eacute;ponses, validation des entr&eacute;es)
-- **Build** : `npm run build` (TypeScript)
-- **Lint** : `npm run lint`
-- **Config** : validation des variables d'environnement au d&eacute;marrage ; aucun secret logg&eacute;
-
----
-
-## Documentation
-
-| Document | Contenu |
-|----------|---------|
-| [docs/setup.md](docs/setup.md) | Cr&eacute;ation du bot, IDs, configuration compl&egrave;te |
-| [docs/commands.md](docs/commands.md) | Commandes et comportement |
-| [docs/architecture.md](docs/architecture.md) | Architecture, flux, s&eacute;curit&eacute; |
-
----
-
-## Licence
-
-MIT &mdash; voir [package.json](package.json) et [LICENSE](LICENSE).
-
----
-
-<details>
-<summary>&Agrave; propos du syst&egrave;me multi-agents (Cursor)</summary>
-
-Ce d&eacute;p&ocirc;t peut &ecirc;tre utilis&eacute; avec un syst&egrave;me d'orchestration multi-agents (fichier de configuration + r&ocirc;les par domaine). Les r&ocirc;les sont organis&eacute;s par cat&eacute;gories fonctionnelles et sont charg&eacute;s dynamiquement pour les t&acirc;ches de d&eacute;veloppement, documentation et d&eacute;ploiement. Le focus principal reste le bot Discord d&eacute;crit ci-dessus.
-</details>
+*A learning-focused automation project combining collaboration, small workflows and practical TypeScript development.*
